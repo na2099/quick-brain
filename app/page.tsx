@@ -1,12 +1,13 @@
 import Link from "next/link";
-import React from "react";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export default function LandingPage() {
   return (
     <main>
-      <nav className="flex items-center justify-between w-full p-4 bg-gray-800">
-        <div className="text-white">QuickBrain</div>
+      <nav className="bg-blue-900">
+        <div className="flex justify-start">
+          <p className="font-bold text-inherit">QuickBrain</p>
+        </div>
         <div>
           <SignedOut>
             <button className="mr-2 text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded">
@@ -27,5 +28,4 @@ export default function LandingPage() {
     </main>
   );
 };
-
 
