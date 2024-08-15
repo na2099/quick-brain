@@ -1,21 +1,27 @@
-import Link from "next/link";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import Link from 'next/link';
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 
 export default function LandingPage() {
   return (
-    <main>
-      <nav className="bg-blue-900">
-        <div className="flex justify-start">
-          <p className="font-bold text-inherit">QuickBrain</p>
+    <header className="bg-transparent">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
+        <div className="text-lg font-bold">
+          <p className="text-inherit">QuickBrain</p>
         </div>
-        <div>
+        <div className="flex items-center">
           <SignedOut>
-            <button className="mr-2 text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded">
-              <Link href="/sign-in">Sign In</Link>
-            </button>
-            <button className="text-white bg-green-800 hover:bg-blue-600 px-4 py-2 rounded">
-              <Link href="/sign-up">Sign Up</Link>
-            </button>
+            <div className="space-x-4">
+              <Link href="/sign-in">
+                <button className="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded">
+                  Sign In
+                </button>
+              </Link>
+              <Link href="/sign-up">
+                <button className="text-white bg-green-800 hover:bg-blue-600 px-4 py-2 rounded">
+                  Sign Up
+                </button>
+              </Link>
+            </div>
           </SignedOut>
           <SignedIn>
             <UserButton />
@@ -25,7 +31,6 @@ export default function LandingPage() {
       <div className="flex flex-col items-center justify-center h-screen">
         <div className="text-6xl font-bold mt-10">Welcome to QuickBrain</div>
       </div>
-    </main>
+    </header>
   );
-};
-
+}
