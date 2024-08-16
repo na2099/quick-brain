@@ -6,6 +6,7 @@ import { Container, TextField, Button, Typography, Box, Grid } from "@mui/materi
 import { db } from "@/firebase";
 import { collection, doc, getDoc, writeBatch } from "firebase/firestore";
 import Preview from "@/components/Preview";
+import { TextArea } from "@/components/ui/textarea";
 
 export default function Generate() {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -74,7 +75,7 @@ export default function Generate() {
   }, [flashcards]);
 
   return (
-    <Container maxWidth="md"> {/* Adjusted container width to 'md' */}
+    <Container maxWidth="xl"> 
       <Box
         sx={{
           mt: 4,
@@ -85,15 +86,12 @@ export default function Generate() {
         }}
       >
         <Typography variant="h4">Generate Flashcards</Typography>
-        <TextField
+        <TextArea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          label="Enter text to generate flashcards"
-          fullWidth
-          multiline
+          placeholder="Enter text to generate flashcards"
           rows={4}
-          variant="outlined"
-          sx={{ mb: 2 }}
+          className="mb-4"
         />
         <Button
           variant="contained"
@@ -109,24 +107,23 @@ export default function Generate() {
             <Typography variant="h5" sx={{ mt: 4 }}>
               Preview Your Flashcards
             </Typography>
-            <Grid container spacing={2} sx={{ mt: 2, mb: 4 }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               {flashcards.map((flashcard, index) => (
-                <Grid item xs={12} sm={6} md={3} key={index}>
+                <div key={index}>
                   <Preview flashcard={flashcard} />
-                </Grid>
+                </div>
               ))}
-            </Grid>
+            </div>
+              
 
             <Typography variant="h6" sx={{ mt: 4 }}>
               Flashcards generated! Save them below:
             </Typography>
-            <TextField
+            <TextArea
               value={name}
               onChange={(e) => setName(e.target.value)}
-              label="Enter a name for the collection"
-              fullWidth
-              variant="outlined"
-              sx={{ mb: 2 }}
+              placeholder="Enter a name for the collection"
+              className="mb-4"
             />
             <Button
               variant="contained"
