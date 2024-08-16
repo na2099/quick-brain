@@ -2,12 +2,13 @@
 
 import { useUser } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
-import { Container, TextField, Button, Typography, Box } from "@mui/material";
+import { Container, TextField, Button, Typography, Box, Grid } from "@mui/material";
 import { db } from "@/firebase";
 import { collection, doc, getDoc, writeBatch } from "firebase/firestore";
+import Preview from "@/components/Preview";
 
 export default function Generate() {
-  const { isLoaded, isSignedIn, user } = useUser(); 
+  const { isLoaded, isSignedIn, user } = useUser();
   const [text, setText] = useState("");
   const [flashcards, setFlashcards] = useState([]);
   const [name, setName] = useState("");
@@ -20,7 +21,6 @@ export default function Generate() {
       });
 
       const data = await response.json();
-      console.log("API Response:", data);
       setFlashcards(data);
     } catch (error) {
       console.error("Error generating flashcards:", error);
@@ -29,44 +29,43 @@ export default function Generate() {
 
   const saveFlashcards = async () => {
     if (!name) {
-        alert("Please enter a name for the flashcard set");
-        return;
+      alert("Please enter a name for the flashcard set");
+      return;
     }
 
     const batch = writeBatch(db);
     if (user) {
-        const userDocRef = doc(collection(db, "users"), user.id);
+      const userDocRef = doc(collection(db, "users"), user.id);
 
-        try {
-            const docSnap = await getDoc(userDocRef);
+      try {
+        const docSnap = await getDoc(userDocRef);
 
-            if (docSnap.exists()) {
-                const collections = docSnap.data().flashcards || [];
+        if (docSnap.exists()) {
+          const collections = docSnap.data().flashcards || [];
 
-                if (collections.find((f: any) => f.name === name)) {
-                    alert("Flashcard set with the same name already exists");
-                    return;
-                } else {
-                    collections.push({ name })
-                    batch.set(userDocRef, { flashcards: collections }, { merge: true });
-                }
-            } else {
-                batch.set(userDocRef, { flashcards: [{ name }] });
-            }
-
-            const flashcardRef = collection(userDocRef, name);
-            flashcards.forEach((flashcard) => {
-                const cardDocRef = doc(flashcardRef);
-                batch.set(cardDocRef, flashcard);
-            });
-
-            await batch.commit();
-
-        } catch (error) {
-            console.error("Error getting user document:", error);
+          if (collections.find((f: any) => f.name === name)) {
+            alert("Flashcard set with the same name already exists");
+            return;
+          } else {
+            collections.push({ name });
+            batch.set(userDocRef, { flashcards: collections }, { merge: true });
+          }
+        } else {
+          batch.set(userDocRef, { flashcards: [{ name }] });
         }
+
+        const flashcardRef = collection(userDocRef, name);
+        flashcards.forEach((flashcard) => {
+          const cardDocRef = doc(flashcardRef);
+          batch.set(cardDocRef, flashcard);
+        });
+
+        await batch.commit();
+      } catch (error) {
+        console.error("Error getting user document:", error);
+      }
     }
-  }
+  };
 
   useEffect(() => {
     if (flashcards.length > 0) {
@@ -75,7 +74,7 @@ export default function Generate() {
   }, [flashcards]);
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md"> {/* Adjusted container width to 'md' */}
       <Box
         sx={{
           mt: 4,
@@ -107,6 +106,17 @@ export default function Generate() {
 
         {flashcards.length > 0 && (
           <>
+            <Typography variant="h5" sx={{ mt: 4 }}>
+              Preview Your Flashcards
+            </Typography>
+            <Grid container spacing={2} sx={{ mt: 2, mb: 4 }}>
+              {flashcards.map((flashcard, index) => (
+                <Grid item xs={12} sm={6} md={3} key={index}>
+                  <Preview flashcard={flashcard} />
+                </Grid>
+              ))}
+            </Grid>
+
             <Typography variant="h6" sx={{ mt: 4 }}>
               Flashcards generated! Save them below:
             </Typography>
