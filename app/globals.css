@@ -67,3 +67,28 @@
     @apply bg-background text-foreground;
   }
 }
+
+.custom-card {
+  min-height: 208px;
+  min-width: 208px;
+  max-width: 400px;
+  margin: 1rem auto;
+  box-shadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)";
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  transform-style: preserve-3d;
+  transition: "transform 0.6s";
+  position: relative;
+}
+
+.custom-card-content {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  transition: "transform 0.5s";
+}

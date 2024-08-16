@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent } from "@/components/ui/card"; 
 
 interface FlashcardProps {
   flashcard: {
@@ -17,48 +17,21 @@ const Preview: React.FC<FlashcardProps> = ({ flashcard }) => {
 
 return (
     <Card
-        sx={{
-            minWidth: "200px",
-            minHeight: "200px",
-            margin: "1rem auto",
-            boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "16px",
-            transformStyle: "preserve-3d",
-            transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
-            transition: "transform 0.5s",
-        }}
+        className="custom-card"
         onClick={handleClick}
+        style={{transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)"}}
     >
         <CardContent
-            sx={{
-                textAlign: "center",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                transformStyle: "preserve-3d",
-                transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
-                transition: "transform 0.5s",
-            }}
+            className="custom-card-content"
+            style={{transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)"}}
         >
-            <Typography
-                variant="h6"
-                component="div"
-                sx={{
-                    width: "100%",
-                    height: "100%",
-                    fontSize: "clamp(12px, 3vw, 18px)",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    wordWrap: "break-word",
-                    lineHeight: 1.2,
-                }}
+        <div>
+            <h6
+               className=""
             >
-                {flipped ? flashcard.back : flashcard.front}
-            </Typography>
+                {flipped? flashcard.back : flashcard.front}
+            </h6>
+        </div>
         </CardContent>
     </Card>
 );
