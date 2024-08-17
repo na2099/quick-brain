@@ -2,11 +2,12 @@
 
 import { useUser } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
-import { Container, TextField, Button, Typography, Box, Grid } from "@mui/material";
+import { Container, TextField,  Typography, Box, Grid } from "@mui/material";
 import { db } from "@/firebase";
 import { collection, doc, getDoc, writeBatch } from "firebase/firestore";
 import Preview from "@/components/Preview";
 import { TextArea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 export default function Generate() {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -68,12 +69,6 @@ export default function Generate() {
     }
   };
 
-  useEffect(() => {
-    if (flashcards.length > 0) {
-      console.log("Flashcards state updated:", flashcards);
-    }
-  }, [flashcards]);
-
   return (
     <Container maxWidth="xl"> 
       <Box
@@ -85,29 +80,27 @@ export default function Generate() {
           alignItems: "center",
         }}
       >
-        <Typography variant="h4">Generate Flashcards</Typography>
+        <h1 className="mb-2 scroll-m-20 antialiased text-4xl font-bold tracking-tight lg:text-5xl">Generate Flashcards</h1>
         <TextArea
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Enter text to generate flashcards"
-          rows={4}
-          className="mb-4"
+          rows={5}
+          className="mb-4 ring ring-sky-600 ring-opacity-50 focus:ring-opacity-100 text-base antialiased"
         />
         <Button
-          variant="contained"
-          color="primary"
+          className="bg-sky-700 hover:bg-sky-600 text-white w-1/2"
           onClick={handleSubmit}
-          fullWidth
         >
-          Submit
+          <p className="text-base antialiased">Submit</p>
         </Button>
 
         {flashcards.length > 0 && (
           <>
-            <Typography variant="h5" sx={{ mt: 4 }}>
+            <h2 className="mt-14 mb-2 antialiased text-3xl font-semibold tracking-tight">
               Preview Your Flashcards
-            </Typography>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
               {flashcards.map((flashcard, index) => (
                 <div key={index}>
                   <Preview flashcard={flashcard} />
@@ -116,23 +109,21 @@ export default function Generate() {
             </div>
               
 
-            <Typography variant="h6" sx={{ mt: 4 }}>
+            <h3 className="mt-4 mb-2 antialiased text-2xl font-semibold tracking-tight">
               Flashcards generated! Save them below:
-            </Typography>
+            </h3>
             <TextArea
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter a name for the collection"
-              className="mb-4"
+              className="mb-4 ring ring-violet-600 ring-opacity-50 focus:ring-opacity-100 text-base antialiased"
             />
             <Button
-              variant="contained"
-              color="secondary"
+              className="bg-violet-800 hover:b-violet-700 text-white w-1/2"
               onClick={saveFlashcards}
-              fullWidth
               disabled={!name || !flashcards.length}
             >
-              Save Flashcards
+              <p className="text-base antialiased">Save Flashcards</p>
             </Button>
           </>
         )}

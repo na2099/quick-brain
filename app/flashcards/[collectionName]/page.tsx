@@ -69,7 +69,7 @@ export default function FlashcardsPage({ params }: FlashcardsPageProps) {
   };
 
   return (
-    <Container maxWidth="md">
+    <div className="w-full">
       <Box
         sx={{
           mt: 4,
@@ -81,11 +81,8 @@ export default function FlashcardsPage({ params }: FlashcardsPageProps) {
       >
         {flashcards.length > 0 ? (
           <>
-            <Flashcard flashcard={flashcards[currentCardIndex]} />
-            <Box
-              sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}
-            >
-              <div className="space-x-8">
+            <div className="grid grid-flow-col gap-10 mt-10">
+              <div className="flex justify-center items-center">
                 <Button
                   variant="default"
                   color="primary"
@@ -93,8 +90,11 @@ export default function FlashcardsPage({ params }: FlashcardsPageProps) {
                   onClick={handlePrevious}
                   disabled={currentCardIndex === 0}
                 >
-                  Previous
+                  {"<"}
                 </Button>
+              </div>
+              <Flashcard flashcard={flashcards[currentCardIndex]} />
+              <div className="flex justify-center items-center">
                 <Button
                   variant="default"
                   color="primary"
@@ -102,10 +102,10 @@ export default function FlashcardsPage({ params }: FlashcardsPageProps) {
                   onClick={handleNext}
                   disabled={currentCardIndex === flashcards.length - 1}
                 >
-                  Next
+                  {">"}
                 </Button>
               </div>
-            </Box>
+            </div>
           </>
         ) : (
           <Typography variant="h6">
@@ -113,6 +113,6 @@ export default function FlashcardsPage({ params }: FlashcardsPageProps) {
           </Typography>
         )}
       </Box>
-    </Container>
+    </div>
   );
 }

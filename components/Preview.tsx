@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card"; 
 
 interface FlashcardProps {
@@ -9,32 +9,29 @@ interface FlashcardProps {
 }
 
 const Preview: React.FC<FlashcardProps> = ({ flashcard }) => {
-    const [flipped, setFlipped] = useState(false);
+  const [flipped, setFlipped] = useState(false);
 
-    const handleClick = () => {
-        setFlipped(!flipped);
-    };
+  const handleClick = () => {
+    setFlipped(!flipped);
+  };
 
-return (
+  return (
     <Card
-        className="custom-card"
-        onClick={handleClick}
-        style={{transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)"}}
+      className={`custom-card ${flipped ? "flipped" : ""}`}
+      onClick={handleClick}
     >
-        <CardContent
-            className="custom-card-content"
-            style={{transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)"}}
-        >
-        <div>
-            <h6
-               className=""
-            >
-                {flipped? flashcard.back : flashcard.front}
-            </h6>
+      <CardContent className="custom-card-content">
+        <div className="card-face card-front">
+          <h4 className="w-full text-center mb-2 question text-lg antiliased font-semibold">Question</h4>
+          <h6 className="w-full text-center">{flashcard.front}</h6>
         </div>
-        </CardContent>
+        <div className="card-face card-back">
+          <h4 className="w-full text-center mb-2 answer text-lg antiliased font-semibold">Answer</h4>
+          <h6 className="w-full text-center antiliased">{flashcard.back}</h6>
+        </div>
+      </CardContent>
     </Card>
-);
+  );
 };
 
 export default Preview;
