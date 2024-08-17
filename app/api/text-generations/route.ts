@@ -6,7 +6,7 @@ const openai = new OpenAI({
 });
 
 const systemPrompt = `
-You are a flashcard creator. Create exactly flashcards from the provided queries, you are free to make whatever you like.
+You are a flashcard creator. Create exactly 10 flashcards from the provided queries, you are free to make whatever you like.
 Each flashcard should have a question on the front and an answer on the back.
 Both front and back should be one sentence long.
 Return the result in a JSON format:

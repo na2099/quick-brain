@@ -2,7 +2,7 @@
 
 import { useUser } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
-import { Container, TextField,  Typography, Box, Grid } from "@mui/material";
+import { Container, Box } from "@mui/material";
 import { db } from "@/firebase";
 import { collection, doc, getDoc, writeBatch } from "firebase/firestore";
 import Preview from "@/components/Preview";
