@@ -1,0 +1,10 @@
+[lcl-host]
+realm-apid = 'localhost'
+
+[org]
+apid = 'nimithejeagerist'
+
+[service]
+apid = 'quick-brain'
+category = 'javascript'
+cert-style = 'acme'
