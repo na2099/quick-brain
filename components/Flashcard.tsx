@@ -23,7 +23,7 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({
 
   return (
     <Card
-      className={`flashcard scroll-m-20 w-full h-96 bg-purple-900 ${
+      className={`flashcard scroll-m-20 w-3/4 h-64 bg-sky-600 bg-opacity-60 ${
         flipped ? "flipped" : ""
       }`}
       onClick={handleFlip}
@@ -32,7 +32,7 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({
         <h1 className="text-center text-3xl font-semibold font-mono tracking-tight antiliased mt-20">
           {flipped ? "Answer" : "Question"}
         </h1>
-        <CardContent className="flashcard-content mb-14">
+        <CardContent className="flashcard-content mb-10">
           <div className="flashcard-face">
             <h6 className="w-full text-2xl tracking-tight text-center antiliased font-mono">{flipped ? flashcard.back : flashcard.front}</h6>
           </div>

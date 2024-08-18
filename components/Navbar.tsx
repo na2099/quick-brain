@@ -38,6 +38,7 @@ export default function Navbar() {
           </SignedIn>
         </div>
       </nav>
+      <hr className="border-t-2 border-gray-200 mt-1 w-3/4 mx-auto" />
     </header>
   );
 }

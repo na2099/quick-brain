@@ -162,3 +162,7 @@
   justify-content: center;
 }
 
+.rounded-list-item {
+  border-radius: 8px; /* Adjust the value as needed */
+}
+
