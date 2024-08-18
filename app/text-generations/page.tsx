@@ -73,14 +73,16 @@ export default function Generate() {
     <Container maxWidth="xl"> 
       <Box
         sx={{
-          mt: 4,
+          mt: 6,
           mb: 6,
+          maxWidth: "80rem",
+          mx: "auto",  // This centers the Box within its parent container
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
+          alignItems: "center",  // Centers the content inside the Box horizontally
         }}
       >
-        <h1 className="mb-2 scroll-m-20 antialiased text-4xl font-bold tracking-tight lg:text-5xl">Generate Flashcards</h1>
+        <h3 className="mb-6 scroll-m-20 antialiased text-4xl font-bold tracking-tight lg:text-5xl">Generate Flashcards</h3>
         <TextArea
           value={text}
           onChange={(e) => setText(e.target.value)}
