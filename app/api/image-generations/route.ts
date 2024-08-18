@@ -6,7 +6,7 @@ const openai = new OpenAI({
 });
 
 const systemPrompt = `
-You are a flashcard creator. Create exactly flashcards from the provided queries, you are free to make whatever you like.
+You are a flashcard creator. Create exactly 10 flashcards from the provided text.
 Each flashcard should have a question on the front and an answer on the back.
 Both front and back should be one sentence long.
 Return the result in a JSON format:
@@ -21,14 +21,18 @@ Return the result in a JSON format:
 `;
 
 export async function POST(req: Request) {
-    const data = await req.text();
-
     try {
+        const { textGenerated } = await req.json();
+
+        if (!textGenerated) {
+            return NextResponse.json({ error: "No text provided for flashcard generation" }, { status: 400 });
+        }
+
         const completion = await openai.chat.completions.create({
             model: "gpt-4",
             messages: [
                 { role: "system", content: systemPrompt },
-                { role: "user", content: data }
+                { role: "user", content: textGenerated }
             ],
         });
         
