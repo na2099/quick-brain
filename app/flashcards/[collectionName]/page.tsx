@@ -34,10 +34,13 @@ export default function FlashcardsPage({ params }: FlashcardsPageProps) {
   useEffect(() => {
     const fetchFlashcards = async () => {
       if (!collectionName || !user) return;
+      
+      // Need to decode to remove any characters that are in ASCII
+      const decodedCollectionName = decodeURIComponent(collectionName)
 
       try {
         const userDocRef = doc(collection(db, "users"), user.id);
-        const colRef = collection(userDocRef, collectionName);
+        const colRef = collection(userDocRef, decodedCollectionName);
         const colSnap = await getDocs(colRef);
 
         const flashcardsData: FlashcardProps["flashcard"][] = colSnap.docs.map((doc) => ({

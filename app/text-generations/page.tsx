@@ -35,6 +35,8 @@ export default function Generate() {
       return;
     }
 
+    // Need to encode to ensure safe storing
+    const encodedName = encodeURIComponent(name)
     const batch = writeBatch(db);
     if (user) {
       const userDocRef = doc(collection(db, "users"), user.id);
@@ -45,18 +47,18 @@ export default function Generate() {
         if (docSnap.exists()) {
           const collections = docSnap.data().flashcards || [];
 
-          if (collections.find((f: any) => f.name === name)) {
+          if (collections.find((f: any) => f.name === encodedName)) {
             alert("Flashcard set with the same name already exists");
             return;
           } else {
-            collections.push({ name });
+            collections.push({ encodedName });
             batch.set(userDocRef, { flashcards: collections }, { merge: true });
           }
         } else {
-          batch.set(userDocRef, { flashcards: [{ name }] });
+          batch.set(userDocRef, { flashcards: [{ name: encodedName }] });
         }
 
-        const flashcardRef = collection(userDocRef, name);
+        const flashcardRef = collection(userDocRef, encodedName);
         flashcards.forEach((flashcard) => {
           const cardDocRef = doc(flashcardRef);
           batch.set(cardDocRef, flashcard);

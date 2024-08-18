@@ -76,12 +76,6 @@ export default function Navbar() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-
-          <Link href="/text-generations" passHref>
-            <Button className="text-white bg-gray-800 hover:bg-gray-900">
-              Generations
-            </Button>
-          </Link>
           <SignedOut>
             <div className="space-x-4">
               <Link href="/sign-in" passHref>
