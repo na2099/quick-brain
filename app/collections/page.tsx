@@ -2,10 +2,29 @@
 
 import { useUser } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
-import { Container, Typography, Box, List, ListItem, ListItemText, Button, IconButton, Modal, TextField } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  Button,
+  IconButton,
+  Modal,
+  TextField,
+} from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
 import { db } from "@/firebase";
-import { collection, doc, getDoc, getDocs, updateDoc, writeBatch, DocumentData } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+  writeBatch,
+  DocumentData,
+} from "firebase/firestore";
 import Link from "next/link";
 
 interface Collection {
@@ -18,7 +37,9 @@ export default function Collections() {
   const [collections, setCollections] = useState<Collection[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedCollection, setSelectedCollection] = useState<string | null>(null);
+  const [selectedCollection, setSelectedCollection] = useState<string | null>(
+    null
+  );
   const [newCollectionName, setNewCollectionName] = useState<string>("");
 
   const fetchCollections = async () => {
@@ -73,6 +94,7 @@ export default function Collections() {
       const batch = writeBatch(db);
       const userCollections: Collection[] = docSnap.data().flashcards || [];
 
+      // Update the collection name in the flashcards array
       const updatedCollections = userCollections.map((col: Collection) => {
         if (col.name === selectedCollection) {
           return { ...col, name: newCollectionName };
@@ -81,8 +103,29 @@ export default function Collections() {
       });
 
       batch.update(userDocRef, { flashcards: updatedCollections });
+
+      // Rename the actual collection in Firestore
+      const oldCollectionRef = collection(userDocRef, selectedCollection);
+      const newCollectionRef = collection(userDocRef, newCollectionName);
+
+      const colSnap = await getDocs(oldCollectionRef);
+      
+
+      // Copy documents to the new collection
+      colSnap.forEach((document) => {
+        const newDocRef = doc(newCollectionRef, document.id);
+        batch.set(newDocRef, document.data());
+      });
+
+      // Delete the old collection documents
+      colSnap.forEach((document) => {
+        // Renamed from 'doc' to 'document'
+        batch.delete(document.ref);
+      });
+
       await batch.commit();
 
+      // Update the state with the new collection names
       setCollections(
         updatedCollections.map((col: Collection) => {
           const existing = collections.find((c) => c.name === col.name);
@@ -93,6 +136,7 @@ export default function Collections() {
         })
       );
       handleCloseModal();
+      window.location.reload();
     } else {
       console.error("Document does not exist!");
     }
@@ -108,20 +152,36 @@ export default function Collections() {
       if (docSnap.exists()) {
         const userCollections: Collection[] = docSnap.data().flashcards || [];
 
-        const updatedCollections = userCollections.filter((col: Collection) => col.name !== selectedCollection);
+        // Remove the collection name from the flashcards array
+        const updatedCollections = userCollections.filter(
+          (col: Collection) => col.name !== selectedCollection
+        );
 
         await updateDoc(userDocRef, { flashcards: updatedCollections });
 
+        // Delete the actual collection from Firestore
         const collectionRef = collection(userDocRef, selectedCollection);
         const colSnap = await getDocs(collectionRef);
 
         const batch = writeBatch(db);
 
+        // Delete all documents in the collection
         colSnap.forEach((doc) => {
           batch.delete(doc.ref);
         });
 
         await batch.commit();
+
+        // Update the state with the remaining collections
+        setCollections(
+          updatedCollections.map((col: Collection) => {
+            const existing = collections.find((c) => c.name === col.name);
+            return {
+              ...col,
+              questionCount: existing ? existing.questionCount : 0,
+            };
+          })
+        );
 
         await fetchCollections(); // Ensure this is awaited to finish before continuing
       }
@@ -147,7 +207,10 @@ export default function Collections() {
       >
         {collections.length === 0 ? (
           <>
-            <Typography variant="h3" className="mb-6 scroll-m-20 antialiased text-4xl font-bold tracking-tight lg:text-5xl">
+            <Typography
+              variant="h3"
+              className="mb-6 scroll-m-20 antialiased text-4xl font-bold tracking-tight lg:text-5xl"
+            >
               No collections made yet
             </Typography>
             <Button variant="contained" color="primary" sx={{ mt: 2 }}>
@@ -158,7 +221,10 @@ export default function Collections() {
           </>
         ) : (
           <>
-            <Typography variant="h3" className="mb-6 scroll-m-20 antialiased text-4xl font-bold tracking-tight lg:text-5xl">
+            <Typography
+              variant="h3"
+              className="mb-6 scroll-m-20 antialiased text-4xl font-bold tracking-tight lg:text-5xl"
+            >
               Your Collections
             </Typography>
             <List sx={{ width: "100%", mt: 2 }}>
@@ -166,10 +232,16 @@ export default function Collections() {
                 <ListItem
                   key={index}
                   className="mb-4 ring ring-sky-600 ring-opacity-50 focus:ring-opacity-100 text-base antialiased rounded-list-item"
-                  sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
                 >
                   <Link href={`/flashcards/${col.name}`} passHref>
-                    <ListItemText primary={`${col.name} (${col.questionCount} questions)`} />
+                    <ListItemText
+                      primary={`${col.name} (${col.questionCount} questions)`}
+                    />
                   </Link>
                   <Box>
                     <IconButton
@@ -198,7 +270,16 @@ export default function Collections() {
       </Box>
 
       <Modal open={modalOpen} onClose={handleCloseModal}>
-        <Box sx={{ p: 4, backgroundColor: "white", margin: "auto", mt: 6, borderRadius: "8px", width: "400px" }}>
+        <Box
+          sx={{
+            p: 4,
+            backgroundColor: "white",
+            margin: "auto",
+            mt: 6,
+            borderRadius: "8px",
+            width: "400px",
+          }}
+        >
           <Typography variant="h6">Edit or Delete Collection</Typography>
           <TextField
             label="New Collection Name"
@@ -211,10 +292,18 @@ export default function Collections() {
             <Button onClick={handleCloseModal} variant="outlined">
               Cancel
             </Button>
-            <Button onClick={handleSaveCollectionName} variant="contained" color="primary">
+            <Button
+              onClick={handleSaveCollectionName}
+              variant="contained"
+              color="primary"
+            >
               Save
             </Button>
-            <Button onClick={handleDeleteCollection} variant="contained" color="secondary">
+            <Button
+              onClick={handleDeleteCollection}
+              variant="contained"
+              color="secondary"
+            >
               Delete
             </Button>
           </Box>
