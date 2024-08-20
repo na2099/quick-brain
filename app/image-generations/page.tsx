@@ -12,7 +12,7 @@ import { createWorker } from "tesseract.js";
 import Image from "next/image";
 import { TextArea } from "@/components/ui/textarea";
 
-export default function GenerateWithImage() {
+export default function GenerateWithImagePage() {
   const { isLoaded, isSignedIn, user } = useUser();
   const [imageData, setImageData] = useState<File | null>(null);
   const [progress, setProgress] = useState(0);

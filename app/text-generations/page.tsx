@@ -9,7 +9,7 @@ import Preview from "@/components/Preview";
 import { TextArea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
-export default function Generate() {
+export default function GeneratePage() {
   const { isLoaded, isSignedIn, user } = useUser();
   const [text, setText] = useState("");
   const [flashcards, setFlashcards] = useState([]);
@@ -36,7 +36,6 @@ export default function Generate() {
     }
 
     // Need to encode to ensure safe storing
-    const encodedName = encodeURIComponent(name)
     const batch = writeBatch(db);
     if (user) {
       const userDocRef = doc(collection(db, "users"), user.id);
@@ -47,18 +46,18 @@ export default function Generate() {
         if (docSnap.exists()) {
           const collections = docSnap.data().flashcards || [];
 
-          if (collections.find((f: any) => f.name === encodedName)) {
+          if (collections.find((f: any) => f.name === name)) {
             alert("Flashcard set with the same name already exists");
             return;
           } else {
-            collections.push({ encodedName });
+            collections.push({ name });
             batch.set(userDocRef, { flashcards: collections }, { merge: true });
           }
         } else {
-          batch.set(userDocRef, { flashcards: [{ name: encodedName }] });
+          batch.set(userDocRef, { flashcards: [{ name }] });
         }
 
-        const flashcardRef = collection(userDocRef, encodedName);
+        const flashcardRef = collection(userDocRef, name);
         flashcards.forEach((flashcard) => {
           const cardDocRef = doc(flashcardRef);
           batch.set(cardDocRef, flashcard);

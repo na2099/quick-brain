@@ -32,7 +32,7 @@ interface Collection {
   questionCount?: number;
 }
 
-export default function Collections() {
+export default function CollectionsPage() {
   const { user } = useUser();
   const [collections, setCollections] = useState<Collection[]>([]);
   const [loading, setLoading] = useState(true);
@@ -52,6 +52,7 @@ export default function Collections() {
 
         const collectionsWithCounts = await Promise.all(
           userCollections.map(async (col: Collection) => {
+            console.log(col.name);
             const colRef = collection(userDocRef, col.name);
             const colSnap = await getDocs(colRef);
             const questionCount = colSnap.size;

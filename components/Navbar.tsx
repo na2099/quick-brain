@@ -76,6 +76,14 @@ export default function Navbar() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <Button
+            variant="ghost"
+            className="hover:bg-transparent hover:text-current"
+          >
+            <Link href="/pricing" passHref>
+              <p className="text-base font-medium antialiased">Pricing</p>
+            </Link>
+          </Button>
           <SignedOut>
             <div className="space-x-4">
               <Link href="/sign-in" passHref>
