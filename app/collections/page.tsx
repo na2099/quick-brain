@@ -215,7 +215,7 @@ export default function CollectionsPage() {
               No collections made yet
             </Typography>
             <Button variant="contained" color="primary" sx={{ mt: 2 }}>
-              <Link href="/generations" passHref>
+              <Link href="/text-generations" passHref>
                 Go to Generate Flashcards
               </Link>
             </Button>
