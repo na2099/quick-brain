@@ -1,15 +1,23 @@
-export default function PaymentSuccess({
-  searchParams: { amount },
-}: {
-  searchParams: { amount: string };
-}) {
+"use client"
+
+export default function PaymentSuccess() {
   return (
-    <main className="max-w-6xl mx-auto p-10 text-white text-center border-m-10 rounded-md bg-gradient-to-tr from-blue-500 to-purple-500">
-      <div className="mb-10">
-        <h1 className="text-4xl font-extrabold mb-2">Thank you!</h1>
-        <h2 className="text-2xl">You successfully sent</h2>
-        <div className="bg-white p-2 rounded-md text-purple-500 mt-5 text-4xl font-bold">
-          ${amount}
+    <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-tr from-blue-500 to-sky-500 text-white p-10">
+      <div className="bg-white rounded-lg p-8 shadow-lg text-center max-w-md">
+        <h1 className="text-5xl font-extrabold text-blue-600 mb-4">Success!</h1>
+        <p className="text-lg font-medium text-gray-800">
+          Your payment was processed successfully.
+        </p>
+        <p className="text-lg font-medium text-gray-800">
+          Thank you for your purchase!
+        </p>
+        <div className="mt-6">
+          <button
+            onClick={() => window.location.href = "/"}
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition ease-in-out duration-300"
+          >
+            Return to Home
+          </button>
         </div>
       </div>
     </main>

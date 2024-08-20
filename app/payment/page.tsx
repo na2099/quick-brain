@@ -12,28 +12,27 @@ if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
 export default function PaymentPage() {
-  const amount = 49.99;
+  const amount = 5.00; 
 
   return (
-    <main className="max-w-6xl mx-auto p-10 text-white text-center border m-10 rounded-md bg-gradient-to-tr from-blue-500 to-purple-500">
-      <div className="mb-10">
-        <h1 className="text-4xl font-extrabold mb-2">Sonny</h1>
-        <h2 className="text-2xl">
-          has requested
-          <span className="font-bold"> ${amount}</span>
-        </h2>
+    <main className="flex flex-col justify-center items-center min-h-screen p-5 bg-gradient-to-r from-sky-400 to-blue-500">
+      <div className="text-center mb-10 text-white">
+        <h1 className="text-4xl font-extrabold mb-4">QuickBrain Payment</h1>
+        <p className="text-lg">You are about to purchase Pro features for only <span className="font-bold">${amount}</span></p>
       </div>
 
-      <Elements 
-        stripe={stripePromise}
-        options={{
-            mode: "payment",
-            amount: convertToSubcurrency(amount), // cents
-            currency: "usd",
-        }}
-      >
-        <CheckoutPage amount={amount} />
-      </Elements>
+      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
+        <Elements 
+          stripe={stripePromise}
+          options={{
+              mode: "payment",
+              amount: convertToSubcurrency(amount), // cents
+              currency: "usd",
+          }}
+        >
+          <CheckoutPage amount={amount} />
+        </Elements>
+      </div>
     </main>
   );
 }

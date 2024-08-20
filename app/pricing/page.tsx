@@ -1,10 +1,26 @@
+"use client"
+
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import { Container } from "@mui/material";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { CircleCheck, CircleX } from "lucide-react";
 import Link from "next/link";
 
 export default function PricingPage() {
+  const { user } = useUser();
+  const router = useRouter();
+
+  const handleProButtonClick = () => {
+    if (user) {
+      // User is signed in, redirect directly to payment page
+      router.push("/payment");
+    } else {
+      // User is not signed in, redirect to sign-in page with redirectUrl
+      router.push("/sign-in?redirectUrl=/payment");
+    }
+  };
+
   return (
     <Container maxWidth="xl">
       {/* Hero Text for the page */}
@@ -92,9 +108,12 @@ export default function PricingPage() {
             <p className="mt-2 text-gray-600">
               The basics for automating your design tokens and assets syncing.
             </p>
-            <button className="mt-7 bg-orange-600 hover:bg-orange-700 text-white w-full rounded-lg button">
+            <button
+              className="mt-7 bg-orange-600 hover:bg-orange-700 text-white w-full rounded-lg button"
+              onClick={handleProButtonClick}
+            >
               <div className="text font-semibold leading-6 antialiased">
-                <Link href="/sign-in">Unlock Pro Features</Link>
+                Unlock Pro Features
               </div>
             </button>
             <ul className="mt-14 space-y-3">
@@ -126,8 +145,6 @@ export default function PricingPage() {
           </CardContent>
         </Card>
       </div>
-
-      {/* Footer Component */}
     </Container>
   );
 }
