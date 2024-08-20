@@ -43,7 +43,7 @@ export default function PricingPage() {
             </p>
             <button className="mt-7 bg-blue-600 hover:bg-blue-700 text-white w-full rounded-lg button">
               <div className="text font-semibold leading-6 antialiased">
-                <Link href="/sign-in">Start free trial</Link>
+                <Link href="/sign-in">Start free</Link>
               </div>
             </button>
             <ul className="mt-14 space-y-3">
