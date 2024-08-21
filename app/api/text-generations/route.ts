@@ -20,26 +20,59 @@ Return the result in a JSON format:
 }
 `;
 
+function splitTextIntoChunks(text: string, maxTokens: number): string[] {
+    const chunks = [];
+    let currentChunk = '';
+
+    const sentences = text.split('. ');
+
+    sentences.forEach(sentence => {
+        if ((currentChunk + sentence).length < maxTokens) {
+            currentChunk += sentence + '. ';
+        } else {
+            chunks.push(currentChunk);
+            currentChunk = sentence + '. ';
+        }
+    });
+
+    if (currentChunk.length > 0) {
+        chunks.push(currentChunk);
+    }
+
+    return chunks;
+}
+
 export async function POST(req: Request) {
     const data = await req.text();
 
     try {
-        const completion = await openai.chat.completions.create({
-            model: "gpt-3.5-turbo",
-            messages: [
-                { role: "system", content: systemPrompt },
-                { role: "user", content: data }
-            ],
-        });
-        
-        const content = completion.choices[0].message.content;
+        const chunks = splitTextIntoChunks(data, 8000);
+        const flashcards = [];
 
-        if (!content) {
-            return NextResponse.json({ error: "Failed to generate flashcards" }, { status: 500 });
+        for (const chunk of chunks) {
+            const completion = await openai.chat.completions.create({
+                model: "gpt-3.5-turbo",
+                messages: [
+                    { role: "system", content: systemPrompt },
+                    { role: "user", content: chunk }
+                ],
+            });
+
+            const content = completion.choices[0].message.content;
+
+            if (!content) {
+                continue; 
+            }
+
+            const result = JSON.parse(content);
+            flashcards.push(...result.flashcards);
         }
 
-        const flashcards = JSON.parse(content);
-        return NextResponse.json( flashcards.flashcards );
+        if (flashcards.length === 0) {
+            return NextResponse.json({ error: "Failed to generate flashcards (Flashcards length is zero)" }, { status: 500 });
+        }
+
+        return NextResponse.json({ flashcards });
     } catch (error) {
         console.error("Error creating chat completion:", error);
         return NextResponse.json({ error: "Failed to generate flashcards" }, { status: 500 });
