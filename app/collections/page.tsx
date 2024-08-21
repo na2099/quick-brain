@@ -52,7 +52,6 @@ export default function CollectionsPage() {
 
         const collectionsWithCounts = await Promise.all(
           userCollections.map(async (col: Collection) => {
-            console.log(col.name);
             const colRef = collection(userDocRef, col.name);
             const colSnap = await getDocs(colRef);
             const questionCount = colSnap.size;

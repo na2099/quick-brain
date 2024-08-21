@@ -35,7 +35,7 @@ export default function GeneratePage() {
 
       const data = await response.json();
       setLoading(false);
-      setFlashcards(data);
+      setFlashcards(data.flashcards);
     } catch (error) {
       console.error("Error generating flashcards:", error);
     }
