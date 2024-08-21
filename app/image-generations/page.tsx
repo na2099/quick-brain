@@ -1,7 +1,7 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { useState } from "react";
+import { useState, CSSProperties } from "react";
 import { Container, Box } from "@mui/material";
 import { db } from "@/firebase";
 import { collection, doc, getDoc, writeBatch } from "firebase/firestore";
@@ -11,9 +11,19 @@ import { Input } from "@/components/ui/input";
 import { createWorker } from "tesseract.js";
 import Image from "next/image";
 import { TextArea } from "@/components/ui/textarea";
+import SyncLoader from "react-spinners/SyncLoader";
+
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "red",
+};
+
 
 export default function GenerateWithImagePage() {
+  const color = "#0284c7"
   const { isLoaded, isSignedIn, user } = useUser();
+  const [loading, setLoading] = useState(false);
   const [imageData, setImageData] = useState<File | null>(null);
   const [progress, setProgress] = useState(0);
   const [progressLabel, setProgressLabel] = useState("idle");
@@ -37,6 +47,8 @@ export default function GenerateWithImagePage() {
   };
 
   const handleSubmit = async () => {
+    setFlashcards([]);
+    setLoading(true);
     const extractedText = await handleExtract();
     if (!extractedText) return;
 
@@ -50,6 +62,7 @@ export default function GenerateWithImagePage() {
       });
 
       const data = await response.json();
+      setLoading(false);
       setFlashcards(data);
     } catch (error) {
       console.error("Error generating flashcards:", error);
@@ -149,6 +162,18 @@ export default function GenerateWithImagePage() {
         >
           <p className="text-base antialiased">Submit</p>
         </Button>
+
+        {loading && (
+          <div className="flex justify-center items-center mt-20">
+            <SyncLoader
+            color={color}
+            loading={loading}
+            cssOverride={override}
+            size={10}
+          />
+          </div>
+          
+        )}
 
         {flashcards.length > 0 && (
           <>

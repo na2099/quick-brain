@@ -1,21 +1,32 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { useState, useEffect } from "react";
+import { useState, useEffect, CSSProperties } from "react";
 import { Container, Box } from "@mui/material";
 import { db } from "@/firebase";
 import { collection, doc, getDoc, writeBatch } from "firebase/firestore";
 import Preview from "@/components/Preview";
 import { TextArea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import SyncLoader from "react-spinners/SyncLoader";
+
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "red",
+};
 
 export default function GeneratePage() {
+  const color = "#0284c7"
   const { isLoaded, isSignedIn, user } = useUser();
+  const [loading, setLoading] = useState(false);
   const [text, setText] = useState("");
   const [flashcards, setFlashcards] = useState([]);
   const [name, setName] = useState("");
 
   const handleSubmit = async () => {
+    setFlashcards([]);
+    setLoading(true);
     try {
       const response = await fetch("/api/text-generations", {
         method: "POST",
@@ -23,6 +34,7 @@ export default function GeneratePage() {
       });
 
       const data = await response.json();
+      setLoading(false);
       setFlashcards(data);
     } catch (error) {
       console.error("Error generating flashcards:", error);
@@ -70,6 +82,8 @@ export default function GeneratePage() {
     }
   };
 
+
+
   return (
     <Container maxWidth="xl"> 
       <Box
@@ -97,6 +111,18 @@ export default function GeneratePage() {
         >
           <p className="text-base antialiased">Submit</p>
         </Button>
+
+        {loading && (
+          <div className="flex justify-center items-center mt-20">
+            <SyncLoader
+            color={color}
+            loading={loading}
+            cssOverride={override}
+            size={10}
+          />
+          </div>
+          
+        )}
 
         {flashcards.length > 0 && (
           <>
