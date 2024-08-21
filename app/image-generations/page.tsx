@@ -65,6 +65,7 @@ export default function GenerateWithImagePage() {
       setLoading(false);
       setFlashcards(data);
     } catch (error) {
+      setLoading(false);
       console.error("Error generating flashcards:", error);
     }
   };
