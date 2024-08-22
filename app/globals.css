@@ -171,6 +171,10 @@
   height: 448px;
 }
 
+.button-two {
+  box-shadow: rgba(255, 255, 255, 0.2) 0px 2px 0px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px 1px inset;
+}
+
 .button {
   padding: 12px 16px;
   box-shadow: rgba(255, 255, 255, 0.2) 0px 2px 0px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px 1px inset;

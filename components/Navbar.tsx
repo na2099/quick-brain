@@ -118,14 +118,14 @@ export default function Navbar() {
 
         <div className="flex items-center space-x-4">
           <SignedOut>
-            <div className="space-x-4">
+            <div className="space-x-4 ">
               <Link href="/sign-in" passHref>
-                <Button className="text-white bg-blue-500 hover:bg-blue-600">
+                <Button className="text-white bg-sky-500 hover:bg-sky-600 text-normal font-semibold rounded-lg antialiased w-20 leading-6 button-two">
                   Sign In
                 </Button>
               </Link>
               <Link href="/sign-up" passHref>
-                <Button className="text-white bg-green-800 hover:bg-blue-600">
+                <Button className="text-white bg-orange-500 hover:bg-orange-600 text-normal font-semibold rounded-lg antialiased w-20 leading-6 button-two">
                   Sign Up
                 </Button>
               </Link>

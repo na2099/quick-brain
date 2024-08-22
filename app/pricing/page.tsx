@@ -54,7 +54,7 @@ export default function PricingPage() {
                 Free
               </span>
             </div>
-          <p className="mt-2 text-gray-600 dark:text-zinc-300">
+            <p className="mt-2 text-gray-600 dark:text-zinc-300">
               The basics for automating your design tokens and assets syncing.
             </p>
             <button className="mt-7 bg-blue-600 hover:bg-blue-700 text-white w-full rounded-lg button">
