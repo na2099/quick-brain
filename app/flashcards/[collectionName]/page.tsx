@@ -7,6 +7,7 @@ import { useUser } from "@clerk/nextjs";
 import { collection, doc, getDocs, addDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import Flashcard from "@/components/Flashcard";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface FlashcardProps {
   flashcard: {
@@ -151,14 +152,14 @@ export default function FlashcardsPage({ params }: FlashcardsPageProps) {
           <>
             <div className="grid grid-flow-col gap-10 mt-2">
               <div className="flex justify-center items-center">
-                <Button variant="contained" color="primary" size="large" onClick={handlePrevious} disabled={currentCardIndex === 0}>
-                  {"<"}
+                <Button variant="contained" color="primary" size="large" onClick={handlePrevious} disabled={currentCardIndex === 0} className="rounded-full dark:disabled:bg-gray-400">
+                  <ChevronLeft />
                 </Button>
               </div>
               <Flashcard flashcard={flashcards[currentCardIndex]} />
               <div className="flex justify-center items-center">
-                <Button variant="contained" color="primary" size="large" onClick={handleNext} disabled={currentCardIndex === flashcards.length - 1}>
-                  {">"}
+                <Button variant="contained" color="primary" size="large" onClick={handleNext} disabled={currentCardIndex === flashcards.length - 1} className="rounded-full dark:disabled:bg-gray-400">
+                <ChevronRight />
                 </Button>
               </div>
             </div>
@@ -215,15 +216,16 @@ export default function FlashcardsPage({ params }: FlashcardsPageProps) {
                       justifyContent: "space-between", // Space between text and icons
                       alignItems: "center", // Vertically center the content
                     }}
+                    className="dark:bg-slate-700"
                   >
                     <Typography variant="body1" sx={{ flexGrow: 1 }}>
                       {flashcard.front}
                     </Typography>
                     <Box>
-                      <IconButton color="primary" onClick={() => handleOpenModal(flashcard)}>
+                      <IconButton color="primary" onClick={() => handleOpenModal(flashcard)} className="dark:text-blue-300">
                         <Edit />
                       </IconButton>
-                      <IconButton color="secondary" onClick={() => handleDeleteFlashcard(flashcard.id!)}>
+                      <IconButton color="secondary" onClick={() => handleDeleteFlashcard(flashcard.id!)} className="dark:text-red-400">
                         <Delete />
                       </IconButton>
                     </Box>
@@ -264,7 +266,7 @@ export default function FlashcardsPage({ params }: FlashcardsPageProps) {
         aria-describedby="modal-description"
       >
         <Box sx={{ p: 4, backgroundColor: "white", margin: "auto", mt: 6, borderRadius: "8px", width: "400px" }}>
-          <Typography id="modal-title" variant="h6">{isEditing ? "Edit Flashcard" : "Add New Flashcard"}</Typography>
+          <Typography className="dark:text-black" id="modal-title" variant="h6">{isEditing ? "Edit Flashcard" : "Add New Flashcard"}</Typography>
           <form>
             <TextField
               id="modal-description"

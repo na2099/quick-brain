@@ -231,7 +231,7 @@ export default function CollectionsPage() {
               {collections.map((col, index) => (
                 <ListItem
                   key={index}
-                  className="mb-4 ring ring-sky-600 ring-opacity-50 focus:ring-opacity-100 text-base antialiased rounded-list-item"
+                  className="mb-4 ring ring-sky-600 dark:ring-sky-500 ring-opacity-50 focus:ring-opacity-100 text-xl antialiased rounded-list-item"
                   sx={{
                     display: "flex",
                     justifyContent: "space-between",
@@ -248,6 +248,7 @@ export default function CollectionsPage() {
                       edge="end"
                       aria-label="edit"
                       onClick={() => handleOpenModal(col.name)}
+                      className="dark:text-slate-300"
                     >
                       <Edit />
                     </IconButton>
@@ -258,6 +259,7 @@ export default function CollectionsPage() {
                         setSelectedCollection(col.name); // Set the collection name
                         handleDeleteCollection(); // Then delete the collection
                       }}
+                      className="dark:text-slate-300"
                     >
                       <Delete />
                     </IconButton>

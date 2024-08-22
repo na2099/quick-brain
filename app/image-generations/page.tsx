@@ -127,10 +127,10 @@ export default function GenerateWithImagePage() {
         
         <label
           htmlFor="dropzone-file"
-          className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-sky-600 rounded-lg cursor-pointer hover:bg-gray-100"
+          className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-sky-600 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800"
         >
           <div className="flex flex-col items-center justify-center pt-5 pb-6">
-            <p className="text-lg font-medium antialiased">
+            <p className="text-lg font-medium antialiased ">
               Drag an image here or click to select a file
             </p>
           </div>

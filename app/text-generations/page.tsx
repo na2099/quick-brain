@@ -16,7 +16,7 @@ const override: CSSProperties = {
   borderColor: "red",
 };
 
-export default function GeneratePage() {
+export default function GenerateWithTextPage() {
   const color = "#0284c7"
   const { isLoaded, isSignedIn, user } = useUser();
   const [loading, setLoading] = useState(false);

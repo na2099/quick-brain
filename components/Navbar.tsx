@@ -10,10 +10,19 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
-import { ChevronDownIcon, Type, Image } from "lucide-react";
+import {
+  ChevronDownIcon,
+  Type,
+  Image,
+  FileText,
+  Sun,
+  Moon,
+} from "lucide-react";
+import { useTheme } from "next-themes";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { setTheme } = useTheme();
 
   const handleMenuClose = () => {
     setOpen(false);
@@ -32,7 +41,7 @@ export default function Navbar() {
             </Link>
           </Button>
         </div>
-        
+
         {/* Centered Section */}
         <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-4">
           <Button
@@ -79,6 +88,21 @@ export default function Navbar() {
                     </p>
                   </Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={handleMenuClose}
+                  className="w-full p-0"
+                >
+                  <FileText className="pl-2 h-4 w-6" />
+                  <Link
+                    href="/document-generations"
+                    passHref
+                    className="w-full"
+                  >
+                    <p className="block w-full py-2 pl-2 text-sm font-medium antialiased">
+                      Document
+                    </p>
+                  </Link>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <Button
@@ -110,6 +134,26 @@ export default function Navbar() {
           <SignedIn>
             <UserButton />
           </SignedIn>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon">
+                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <span className="sr-only">Toggle theme</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setTheme("light")}>
+                Light
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
+                Dark
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("system")}>
+                System
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </nav>
       <hr className="border-t-2 border-gray-200 mt-1 w-3/4 mx-auto" />

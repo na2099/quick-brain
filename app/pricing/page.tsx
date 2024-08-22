@@ -26,12 +26,12 @@ export default function PricingPage() {
       {/* Hero Text for the page */}
       <div className="flex flex-col justify-center items-center text-center mt-20">
         <div>
-          <h1 className="text-6xl text-zinc-900 font-bold">
+          <h1 className="text-6xl text-zinc-900 dark:text-zinc-100 font-bold">
             Turn Ideas into Knowledge in Seconds
           </h1>
         </div>
         <div className="text-center w-8/12 mt-5">
-          <p className="text-xl font-normal text-gray-600 antialiased">
+          <p className="text-xl font-normal text-gray-600 dark:text-zinc-300 antialiased">
             QuickBrain helps you transform your study material into flashcards
             effortlessly. Whether you’re dealing with text, images, or
             documents, our tool simplifies learning so you can focus on what
@@ -54,7 +54,7 @@ export default function PricingPage() {
                 Free
               </span>
             </div>
-            <p className="mt-2 text-gray-600">
+          <p className="mt-2 text-gray-600 dark:text-zinc-300">
               The basics for automating your design tokens and assets syncing.
             </p>
             <button className="mt-7 bg-blue-600 hover:bg-blue-700 text-white w-full rounded-lg button">
@@ -103,9 +103,9 @@ export default function PricingPage() {
               <span className="text-5xl font-bold text-orange-600 antialiased">
                 $5
               </span>
-              <span className="text-gray-500 text-lg antialiased">/month</span>
+              <span className="text-gray-500 dark:text-zinc-300 text-lg antialiased">/month</span>
             </div>
-            <p className="mt-2 text-gray-600">
+            <p className="mt-2 text-gray-600 dark:text-zinc-300">
               The basics for automating your design tokens and assets syncing.
             </p>
             <button
