@@ -9,3 +9,7 @@ export default function LandingPage() {
     </header>
   );
 }
+
+export const metadata = {
+  title: "QuickBrain",
+}
