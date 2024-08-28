@@ -5,15 +5,20 @@ const FooterContainer = styled.div`
   background-color: #212529;
   color: white;
   padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const FooterGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
 `;
 
-const FooterSection = styled.div``;
+const FooterSection = styled.div`
+  margin: 0 15px; /* Adds space between sections */
+`;
 
 const FooterTitle = styled.h4`
   margin-bottom: 10px;
@@ -37,15 +42,12 @@ const Footer = () => {
         <FooterSection>
           <FooterTitle>Company</FooterTitle>
           <FooterLink href="#">About Us</FooterLink>
-          <FooterLink href="#">Careers</FooterLink>
-          {/* Add more links as needed */}
         </FooterSection>
         <FooterSection>
           <FooterTitle>Get Quick Brain</FooterTitle>
           <FooterLink href="#">iOS</FooterLink>
           <FooterLink href="#">Android</FooterLink>
         </FooterSection>
-        {/* Add more sections as needed */}
       </FooterGrid>
     </FooterContainer>
   );
