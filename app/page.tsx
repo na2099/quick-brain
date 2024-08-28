@@ -1,3 +1,4 @@
+'use client';
 import Navbar from '@/components/Navbar';
 import React, { createContext } from 'react';
 import styled from 'styled-components';
