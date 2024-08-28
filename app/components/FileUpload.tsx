@@ -40,7 +40,7 @@ const FileUpload = () => {
       <UploadBox>
         <UploadText>Drag & Drop your file here</UploadText>
       </UploadBox>
-      <Button>Chat With Your PDF</Button>
+      <Button>Generate Flashcards With Your PDF</Button>
     </FileUploadContainer>
   );
 };

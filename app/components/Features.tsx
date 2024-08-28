@@ -26,15 +26,15 @@ const Features = () => {
     <FeaturesContainer>
       <Feature>
         <Icon>💡</Icon>
-        <FeatureText>Step-by-step explanations</FeatureText>
+        <FeatureText>Instant AI-Generated Flashcards</FeatureText>
       </Feature>
       <Feature>
         <Icon>✨</Icon>
         <FeatureText>Recommendations</FeatureText>
       </Feature>
       <Feature>
-        <Icon>🧑‍🏫</Icon>
-        <FeatureText>Help from expert tutors</FeatureText>
+        <Icon>🧠</Icon>
+        <FeatureText>Boost Your Learning Efficiency</FeatureText>
       </Feature>
     </FeaturesContainer>
   );

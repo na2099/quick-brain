@@ -41,7 +41,7 @@ const Footer = () => {
           {/* Add more links as needed */}
         </FooterSection>
         <FooterSection>
-          <FooterTitle>Get Course Hero</FooterTitle>
+          <FooterTitle>Get Quick Brain</FooterTitle>
           <FooterLink href="#">iOS</FooterLink>
           <FooterLink href="#">Android</FooterLink>
         </FooterSection>
