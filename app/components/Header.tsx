@@ -29,9 +29,6 @@ const Button = styled.button`
 const Header = () => {
   return (
     <HeaderContainer>
-      <Title>Study seamlessly</Title>
-      <Subtitle>Find all the relevant resources you need, right within your own document</Subtitle>
-      <Button>Learn More</Button>
     </HeaderContainer>
   );
 };

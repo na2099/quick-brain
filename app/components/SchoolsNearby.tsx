@@ -34,7 +34,7 @@ const SchoolName = styled.h3`
 const SchoolsNearby = () => {
   return (
     <SchoolsContainer>
-      <SchoolsTitle>Explore top schools nearby*</SchoolsTitle>
+      <SchoolsTitle>Explore top schools nearby</SchoolsTitle>
       <SchoolList>
         <SchoolCard>
           <SchoolName>University of Ottawa</SchoolName>
