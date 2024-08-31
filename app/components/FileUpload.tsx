@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+
+interface UploadBoxProps {
+  isDragging: boolean;
+}
 
 const FileUploadContainer = styled.div`
   display: flex;
@@ -8,7 +12,7 @@ const FileUploadContainer = styled.div`
   margin: 40px 0;
 `;
 
-const UploadBox = styled.div`
+const UploadBox = styled.div<UploadBoxProps>`
   width: 80%;
   height: 200px;
   background-color: #f8f9fa;
@@ -17,6 +21,9 @@ const UploadBox = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  ${(props) => props.isDragging && 'background-color: #e2e6ea;'}
 `;
 
 const UploadText = styled.p`
@@ -35,12 +42,55 @@ const Button = styled.button`
 `;
 
 const FileUpload = () => {
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      console.log('Files dropped:', files);
+      // You can now process the files (e.g., read the PDF, send to backend, etc.)
+    }
+  };
+
+  const handleFileUpload = () => {
+    // Logic for handling file upload via button click
+    console.log('Button clicked for file upload');
+  };
+
   return (
     <FileUploadContainer>
-      <UploadBox>
+      <UploadBox
+        isDragging={isDragging}
+        onDragOver={handleDragOver}
+        onDragEnter={handleDragEnter}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+      >
         <UploadText>Drag & Drop your file here</UploadText>
       </UploadBox>
-      <Button>Generate Flashcards With Your PDF</Button>
+      <Button onClick={handleFileUpload}>Generate Flashcards With Your PDF</Button>
     </FileUploadContainer>
   );
 };
