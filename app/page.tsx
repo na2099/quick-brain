@@ -16,12 +16,32 @@ const AppContainer = styled.div`
   min-height: 100vh;
 `;
 
+// Define the styled heading and catchphrase
+const Heading = styled.div`
+  text-align: center;
+  margin-top: 10px;
+`;
+
+const Title = styled.div`
+  font-size: 6rem;
+  font-weight: bold;
+`;
+
+const Catchphrase = styled.div`
+  font-size: 1.5rem;
+  margin-top: 10px;
+  font-style: italic;
+`;
+
 export default function LandingPage() {
   return (
     <AppContainer>
       <Header />
       <div className="flex flex-col items-center justify-center h-screen">
-        <div className="text-6xl font-bold mt-10">Welcome to QuickBrain</div>
+        <Heading>
+          <Title>Welcome to QuickBrain</Title>
+          <Catchphrase>Slay Your Study Game</Catchphrase>
+        </Heading>
       </div>
       <Features />
       <FileUpload />
