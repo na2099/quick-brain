@@ -1,36 +1,51 @@
-import { NextResponse } from 'next/server';
-import OpenAI from 'openai'; // Assuming you are using OpenAI
+import { NextResponse } from "next/server"; 
+import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+    apiKey: process.env.OPENAI_API_KEY,
 });
 
-export async function POST(req) {
-  try {
-    const data = await req.json(); // Expecting JSON input from the client
-    const prompt = data.prompt; // Assuming 'prompt' is the key for the text input
-
-    if (!prompt) {
-      return NextResponse.json({ error: 'Prompt is required' }, { status: 400 });
+const systemPrompt = `
+You are a flashcard creator. Create exactly 10 flashcards from the provided text.
+Each flashcard should have a question on the front and an answer on the back.
+Both front and back should be one sentence long.
+Return the result in a JSON format:
+{
+  "flashcards":[
+    {
+      "front": "Front of the card",
+      "back": "Back of the card"
     }
+  ]
+}
+`;
 
-    // Generate image based on the prompt using the OpenAI API (or any other service)
-    const response = await openai.images.generate({
-      prompt,
-      n: 1,
-      size: '512x512',
-    });
+export async function POST(req: Request) {
+    try {
+        const { textGenerated } = await req.json();
 
-    const imageUrl = response.data[0].url;
+        if (!textGenerated) {
+            return NextResponse.json({ error: "No text provided for flashcard generation" }, { status: 400 });
+        }
 
-    if (!imageUrl) {
-      throw new Error('Failed to generate image');
+        const completion = await openai.chat.completions.create({
+            model: "gpt-4",
+            messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: textGenerated }
+            ],
+        });
+        
+        const content = completion.choices[0].message.content;
+
+        if (!content) {
+            return NextResponse.json({ error: "Failed to generate flashcards" }, { status: 500 });
+        }
+
+        const flashcards = JSON.parse(content);
+        return NextResponse.json( flashcards.flashcards );
+    } catch (error) {
+        console.error("Error creating chat completion:", error);
+        return NextResponse.json({ error: "Failed to generate flashcards" }, { status: 500 });
     }
-
-    // Return the generated image URL to the client
-    return NextResponse.json({ imageUrl });
-  } catch (error) {
-    console.error('Error generating image:', error);
-    return NextResponse.json({ error: 'Failed to generate image' }, { status: 500 });
-  }
 }
